@@ -1,5 +1,5 @@
 PythonToolsView = require './python-tools-view'
-{CompositeDisposable} = require 'atom'
+{Range, Point, CompositeDisposable} = require 'atom'
 path = require 'path'
 
 module.exports = PythonTools =
@@ -72,6 +72,18 @@ module.exports = PythonTools =
   _deserialize: (response) ->
     console.log "Got some data back from tools.py"
     console.log "#{response}"
+
+    response = JSON.parse(response)
+
+    editor = atom.workspace.getActiveTextEditor()
+    selections = []
+    for item in response
+      selections.push new Range(
+        new Point(item['line'] - 1, item['column']),
+        new Point(item['line'] - 1, item['column'] + item['name'].length),  # Use string length
+      )
+
+    editor.setSelectedBufferRanges(selections)
 
   showUsages: ->
     console.log 'Running show usages'
