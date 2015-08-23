@@ -1,0 +1,19 @@
+{
+  "name": "python-tools",
+  "main": "./lib/python-tools",
+  "version": "0.0.0",
+  "description": "Uses jedi to provide numerous tools useful for developing python code in atom.",
+  "keywords": [
+    "python"
+  ],
+  "activationCommands": {
+    "atom-workspace": "python-tools:toggle"
+  },
+  "repository": "https://github.com/MichaelAquilina/python-tools",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}
