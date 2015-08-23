@@ -1,7 +1,7 @@
 {
   "name": "python-tools",
   "main": "./lib/python-tools",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Uses jedi to provide numerous tools useful for developing python code in atom.",
   "keywords": [
     "python"
