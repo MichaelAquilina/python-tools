@@ -27,57 +27,34 @@ module.exports = PythonTools =
     @requests = {}
 
     env = process.env
-    pythonPath = atom.config.get('autocomplete-python.pythonPath')
-
-    if /^win/.test process.platform
-      paths = ['C:\\Python2.7',
-               'C:\\Python3.4',
-               'C:\\Python3.5',
-               'C:\\Program Files (x86)\\Python 2.7',
-               'C:\\Program Files (x86)\\Python 3.4',
-               'C:\\Program Files (x86)\\Python 3.5',
-               'C:\\Program Files (x64)\\Python 2.7',
-               'C:\\Program Files (x64)\\Python 3.4',
-               'C:\\Program Files (x64)\\Python 3.5',
-               'C:\\Program Files\\Python 2.7',
-               'C:\\Program Files\\Python 3.4',
-               'C:\\Program Files\\Python 3.5']
-    else:
-      paths = ['/usr/local/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin']
+    paths = ['/usr/local/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin']
     path_env = (env.PATH or '').split path.delimiter
-    path_env.unshift pythonPath if pythonPath and pythonPath not in path_env
     for p in paths
       if p not in path_env
         path_env.push p
     env.PATH = path_env.join path.delimiter
 
     @provider = require('child_process').spawn(
-      'python', [__dirname + '/completion.py'], env: env)
+      'python', [__dirname + '/tools.py'], env: env)
 
     @provider.on 'error', (err) =>
       if err.code == 'ENOENT'
         atom.notifications.addWarning(
-          "autocomplete-python unable to find python executable: please set " +
+          "python-tools unable to find python executable: please set " +
           "the path to python directory manually in the package settings and " +
           "restart your editor. #{@_issueReportLink}", {
             detail: err,
             dismissable: true})
       else
         atom.notifications.addError(
-          "autocomplete-python error. #{@_issueReportLink}", {
+          "python-tools error. #{@_issueReportLink}", {
             detail: err,
             dismissable: true})
     @provider.on 'exit', (code, signal) =>
       if signal != 'SIGTERM'
         atom.notifications.addError(
-          "autocomplete-python provider exit. #{@_issueReportLink}", {
+          "python-tools provider exit. #{@_issueReportLink}", {
             detail: "exit with code #{code}, signal #{signal}",
-            dismissable: true})
-    @provider.stderr.on 'data', (err) ->
-      if atom.config.get('autocomplete-python.outputProviderErrors')
-        atom.notifications.addError(
-          'autocomplete-python traceback output:', {
-            detail: "#{err}",
             dismissable: true})
 
     @readline = require('readline').createInterface(input: @provider.stdout)
@@ -92,8 +69,22 @@ module.exports = PythonTools =
   serialize: ->
     pythonToolsViewState: @pythonToolsView.serialize()
 
+  _deserialize: (response) ->
+    console.log "Got some data back from tools.py"
+    console.log "#{response}"
+
   showUsages: ->
     console.log 'Running show usages'
+    editor = atom.workspace.getActiveTextEditor()
+    bufferPosition = editor.getCursorBufferPosition()
+
+    payload =
+      path: editor.getPath()
+      source: editor.getText()
+      line: bufferPosition.row
+      column: bufferPosition.column
+
+    @provider.stdin.write(JSON.stringify(payload) + '\n')
 
   toggle: ->
     console.log 'PythonTools was toggled!'
