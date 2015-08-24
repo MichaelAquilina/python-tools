@@ -10,11 +10,9 @@ module.exports = PythonTools =
   activate: (state) ->
     @pythonToolsView = new PythonToolsView(state.pythonToolsViewState)
     @modalPanel = atom.workspace.addModalPanel(item: @pythonToolsView.getElement(), visible: false)
+
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
-
-    # Register command that toggles this view
-    @subscriptions.add atom.commands.add 'atom-workspace', 'python-tools:toggle': => @toggle()
     @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:show-usages': => @showUsages()
 
     atom.contextMenu.add({
