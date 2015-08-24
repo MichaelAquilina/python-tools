@@ -31,17 +31,15 @@ class JediTools(object):
         _usages = []
         for usage in usages:
             _usages.append({
+                'full_name': usage.full_name,
                 'name': usage.name,
                 'line': usage.line,
                 'column': usage.column,
             })
         return json.dumps(_usages)
 
-    def _deserialize(self, request):
-        return json.loads(request)
-
     def _process_request(self, request):
-        request = self._deserialize(request)
+        request = json.loads(request)
 
         path = self._get_top_level_module(request.get('path', ''))
         if path not in sys.path:
@@ -54,7 +52,8 @@ class JediTools(object):
         except KeyError:
             usages = []
         except Exception:
-            traceback.print_exc(file=open('/home/michael/python-tools-error.log', 'w'))
+            with open('error.log', 'wa') as fp:
+                traceback.print_exc(file=fp)
             usages = []
         self._write_response(self._serialize(usages))
 
@@ -67,12 +66,9 @@ class JediTools(object):
             try:
                 data = self._input.readline()
                 self._process_request(data)
-                with open('/home/michael/python-tools-data.log', 'wa') as fp:
-                    fp.write(data)
-                    fp.write('\n')
-
             except Exception:
-                traceback.print_exc(file=sys.stderr)
+                with open('error.log', 'wa') as fp:
+                    traceback.print_exc(file=fp)
 
 if __name__ == '__main__':
     JediTools().watch()
