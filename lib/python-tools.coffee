@@ -56,6 +56,8 @@ module.exports = PythonTools =
     @modalPanel.destroy()
     @subscriptions.dispose()
     @pythonToolsView.destroy()
+    @readline.close()
+    @provider.kill()
 
   serialize: ->
     pythonToolsViewState: @pythonToolsView.serialize()
