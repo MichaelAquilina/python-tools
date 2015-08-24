@@ -2,8 +2,8 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle python-tools'
-      'command': 'python-tools:toggle'
+      'label': 'Show Usages'
+      'command': 'python-tools:show-usages'
     }
   ]
 'menu': [
@@ -13,8 +13,8 @@
       'label': 'python-tools'
       'submenu': [
         {
-          'label': 'Toggle'
-          'command': 'python-tools:toggle'
+          'label': 'Show Usages'
+          'command': 'python-tools:show-usages'
         }
       ]
     ]

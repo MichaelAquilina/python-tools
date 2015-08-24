@@ -15,13 +15,6 @@ module.exports = PythonTools =
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:show-usages': => @showUsages()
 
-    atom.contextMenu.add({
-      'atom-text-editor': [{
-          label: 'Show Usages',
-          command: 'python-tools:show-usages'
-        }]
-    })
-
     @requests = {}
 
     env = process.env
