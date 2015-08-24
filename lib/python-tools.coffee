@@ -1,16 +1,10 @@
-PythonToolsView = require './python-tools-view'
 {Range, Point, CompositeDisposable} = require 'atom'
 path = require 'path'
 
 module.exports = PythonTools =
-  pythonToolsView: null
-  modalPanel: null
   subscriptions: null
 
   activate: (state) ->
-    @pythonToolsView = new PythonToolsView(state.pythonToolsViewState)
-    @modalPanel = atom.workspace.addModalPanel(item: @pythonToolsView.getElement(), visible: false)
-
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:show-usages': => @showUsages()
@@ -51,16 +45,10 @@ module.exports = PythonTools =
     @readline = require('readline').createInterface(input: @provider.stdout)
     @readline.on 'line', (response) => @_deserialize(response)
 
-
   deactivate: ->
-    @modalPanel.destroy()
     @subscriptions.dispose()
-    @pythonToolsView.destroy()
     @readline.close()
     @provider.kill()
-
-  serialize: ->
-    pythonToolsViewState: @pythonToolsView.serialize()
 
   _deserialize: (response) ->
     console.log "Got some data back from tools.py"
@@ -95,11 +83,3 @@ module.exports = PythonTools =
         column: bufferPosition.column
 
       @provider.stdin.write(JSON.stringify(payload) + '\n')
-
-  toggle: ->
-    console.log 'PythonTools was toggled!'
-
-    if @modalPanel.isVisible()
-      @modalPanel.hide()
-    else
-      @modalPanel.show()
