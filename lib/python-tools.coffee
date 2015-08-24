@@ -68,28 +68,33 @@ module.exports = PythonTools =
 
     response = JSON.parse(response)
 
-    editor = atom.workspace.getActiveTextEditor()
-    selections = []
-    for item in response
-      selections.push new Range(
-        new Point(item['line'] - 1, item['column']),
-        new Point(item['line'] - 1, item['column'] + item['name'].length),  # Use string length
-      )
+    if response.length > 1
+      editor = atom.workspace.getActiveTextEditor()
+      selections = []
+      for item in response
+        selections.push new Range(
+          new Point(item['line'] - 1, item['column']),
+          new Point(item['line'] - 1, item['column'] + item['name'].length),  # Use string length
+        )
 
-    editor.setSelectedBufferRanges(selections)
+      editor.setSelectedBufferRanges(selections)
 
   showUsages: ->
-    console.log 'Running show usages'
     editor = atom.workspace.getActiveTextEditor()
-    bufferPosition = editor.getCursorBufferPosition()
+    grammar = editor.getGrammar()
 
-    payload =
-      path: editor.getPath()
-      source: editor.getText()
-      line: bufferPosition.row
-      column: bufferPosition.column
+    console.log "Running show usages for #{grammar.name}"
 
-    @provider.stdin.write(JSON.stringify(payload) + '\n')
+    if grammar.name == 'Python'
+      bufferPosition = editor.getCursorBufferPosition()
+
+      payload =
+        path: editor.getPath()
+        source: editor.getText()
+        line: bufferPosition.row
+        column: bufferPosition.column
+
+      @provider.stdin.write(JSON.stringify(payload) + '\n')
 
   toggle: ->
     console.log 'PythonTools was toggled!'
