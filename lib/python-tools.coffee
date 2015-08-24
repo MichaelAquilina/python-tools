@@ -20,7 +20,8 @@ module.exports = PythonTools =
     env.PATH = path_env.join path.delimiter
 
     @provider = require('child_process').spawn(
-      'python', [__dirname + '/tools.py'], env: env)
+      'python', [__dirname + '/tools.py'], env: env
+    )
 
     @provider.on 'error', (err) =>
       if err.code == 'ENOENT'
