@@ -5,17 +5,3 @@
       'command': 'python-tools:show-usages'
     }
   ]
-'menu': [
-  {
-    'label': 'Packages'
-    'submenu': [
-      'label': 'python-tools'
-      'submenu': [
-        {
-          'label': 'Show Usages'
-          'command': 'python-tools:show-usages'
-        }
-      ]
-    ]
-  }
-]
