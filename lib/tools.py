@@ -34,7 +34,7 @@ class JediTools(object):
                 'full_name': definition.full_name,
                 'name': definition.name,
                 'line': definition.line,
-                'column': definition.column,
+                'col': definition.column,
             })
         return json.dumps({'type': type, 'definitions': _definitions})
 
@@ -48,7 +48,7 @@ class JediTools(object):
         script = jedi.api.Script(
             source=request['source'],
             line=request['line'] + 1,
-            column=request['column'],
+            column=request['col'],
             path=request.get('path', ''),
         )
 

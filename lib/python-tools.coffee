@@ -65,15 +65,18 @@ module.exports = PythonTools =
         selections = []
         for item in response['definitions']
           selections.push new Range(
-            new Point(item['line'] - 1, item['column']),
-            new Point(item['line'] - 1, item['column'] + item['name'].length),  # Use string length
+            new Point(item['line'] - 1, item['col']),
+            new Point(item['line'] - 1, item['col'] + item['name'].length),  # Use string length
           )
 
         editor.setSelectedBufferRanges(selections)
+
       else if response['type'] == 'definitions'
         first_def = response['definitions'][0]
+
         line = first_def['line']
-        column = first_def['column']
+        column = first_def['col']
+
         if line != null and column != null
           editor.setCursorBufferPosition(
             new Point(line - 1, column)
@@ -93,6 +96,6 @@ module.exports = PythonTools =
         path: editor.getPath()
         source: editor.getText()
         line: bufferPosition.row
-        column: bufferPosition.column
+        col: bufferPosition.column
 
       @provider.stdin.write(JSON.stringify(payload) + '\n')
