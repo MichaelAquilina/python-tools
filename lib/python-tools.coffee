@@ -31,18 +31,24 @@ module.exports = PythonTools =
           "the path to python directory manually in the package settings and " +
           "restart your editor. #{@_issueReportLink}", {
             detail: err,
-            dismissable: true})
+            dismissable: true
+          }
+        )
       else
         atom.notifications.addError(
           "python-tools error. #{@_issueReportLink}", {
             detail: err,
-            dismissable: true})
+            dismissable: true
+          }
+        )
     @provider.on 'exit', (code, signal) =>
       if signal != 'SIGTERM'
         atom.notifications.addError(
           "python-tools provider exit. #{@_issueReportLink}", {
             detail: "exit with code #{code}, signal #{signal}",
-            dismissable: true})
+            dismissable: true
+          }
+        )
 
     @readline = require('readline').createInterface(input: @provider.stdout)
     @readline.on 'line', (response) => @_deserialize(response)
@@ -86,7 +92,7 @@ module.exports = PythonTools =
     editor = atom.workspace.getActiveTextEditor()
     grammar = editor.getGrammar()
 
-    console.log "Running show #{type} for #{grammar.name}"
+    console.log "Running '#{type}' for #{grammar.name}"
 
     if grammar.name == 'Python'
       bufferPosition = editor.getCursorBufferPosition()
