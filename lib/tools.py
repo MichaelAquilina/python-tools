@@ -65,6 +65,11 @@ class JediTools(object):
         while True:
             try:
                 data = self._input.readline()
+
+                # Check if the connection has been broken
+                if len(data) == 0:
+                    break
+
                 self._process_request(data)
             except Exception:
                 with open('error.log', 'wa') as fp:
