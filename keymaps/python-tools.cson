@@ -9,3 +9,4 @@
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
 'atom-workspace':
   'ctrl-alt-u': 'python-tools:show-usages'
+  'ctrl-alt-g': 'python-tools:goto-definitions'

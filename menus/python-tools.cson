@@ -3,5 +3,9 @@
     {
       'label': 'Show Usages'
       'command': 'python-tools:show-usages'
+    },
+    {
+      'label': 'Goto Definitions'
+      'command': 'python-tools:goto-definitions'
     }
   ]

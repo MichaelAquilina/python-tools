@@ -27,16 +27,16 @@ class JediTools(object):
             return cls._get_top_level_module(_path)
         return path
 
-    def _serialize(self, usages):
-        _usages = []
-        for usage in usages:
-            _usages.append({
-                'full_name': usage.full_name,
-                'name': usage.name,
-                'line': usage.line,
-                'column': usage.column,
+    def _serialize(self, type, definitions):
+        _definitions = []
+        for definition in definitions:
+            _definitions.append({
+                'full_name': definition.full_name,
+                'name': definition.name,
+                'line': definition.line,
+                'column': definition.column,
             })
-        return json.dumps(_usages)
+        return json.dumps({'type': type, 'definitions': _definitions})
 
     def _process_request(self, request):
         request = json.loads(request)
@@ -44,18 +44,18 @@ class JediTools(object):
         path = self._get_top_level_module(request.get('path', ''))
         if path not in sys.path:
             sys.path.insert(0, path)
-        try:
-            script = jedi.api.Script(
-                source=request['source'], line=request['line'] + 1,
-                column=request['column'], path=request.get('path', ''))
-            usages = script.usages()
-        except KeyError:
-            usages = []
-        except Exception:
-            with open('error.log', 'wa') as fp:
-                traceback.print_exc(file=fp)
-            usages = []
-        self._write_response(self._serialize(usages))
+
+        script = jedi.api.Script(
+            source=request['source'],
+            line=request['line'] + 1,
+            column=request['column'],
+            path=request.get('path', ''),
+        )
+
+        if request['type'] == 'usages':
+            self._write_response(self._serialize('usages', script.usages()))
+        elif request['type'] == 'definitions':
+            self._write_response(self._serialize('definitions', script.goto_definitions()))
 
     def _write_response(self, response):
         sys.stdout.write(response + '\n')

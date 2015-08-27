@@ -7,7 +7,8 @@ module.exports = PythonTools =
   activate: (state) ->
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
-    @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:show-usages': => @showUsages()
+    @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:show-usages': => @jediToolsRequest('usages')
+    @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:goto-definitions': => @jediToolsRequest('definitions')
 
     @requests = {}
 
@@ -57,27 +58,38 @@ module.exports = PythonTools =
 
     response = JSON.parse(response)
 
-    if response.length > 1
+    if response['definitions'].length > 0
       editor = atom.workspace.getActiveTextEditor()
-      selections = []
-      for item in response
-        selections.push new Range(
-          new Point(item['line'] - 1, item['column']),
-          new Point(item['line'] - 1, item['column'] + item['name'].length),  # Use string length
-        )
 
-      editor.setSelectedBufferRanges(selections)
+      if response['type'] == 'usages'
+        selections = []
+        for item in response['definitions']
+          selections.push new Range(
+            new Point(item['line'] - 1, item['column']),
+            new Point(item['line'] - 1, item['column'] + item['name'].length),  # Use string length
+          )
 
-  showUsages: ->
+        editor.setSelectedBufferRanges(selections)
+      else if response['type'] == 'definitions'
+        first_def = response['definitions'][0]
+        line = first_def['line']
+        column = first_def['column']
+        if line != null and column != null
+          editor.setCursorBufferPosition(
+            new Point(line - 1, column)
+          )
+
+  jediToolsRequest: (type) ->
     editor = atom.workspace.getActiveTextEditor()
     grammar = editor.getGrammar()
 
-    console.log "Running show usages for #{grammar.name}"
+    console.log "Running show #{type} for #{grammar.name}"
 
     if grammar.name == 'Python'
       bufferPosition = editor.getCursorBufferPosition()
 
       payload =
+        type: type
         path: editor.getPath()
         source: editor.getText()
         line: bufferPosition.row
