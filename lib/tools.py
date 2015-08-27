@@ -27,7 +27,7 @@ class JediTools(object):
             return cls._get_top_level_module(_path)
         return path
 
-    def _serialize(self, type, definitions):
+    def _serialize(self, response_type, definitions):
         _definitions = []
         for definition in definitions:
             _definitions.append({
@@ -36,7 +36,10 @@ class JediTools(object):
                 'line': definition.line,
                 'col': definition.column,
             })
-        return json.dumps({'type': type, 'definitions': _definitions})
+        return json.dumps({
+            'type': response_type,
+            'definitions': _definitions,
+        })
 
     def _process_request(self, request):
         request = json.loads(request)
