@@ -54,8 +54,8 @@ class JediTools(object):
 
         if request['type'] == 'usages':
             self._write_response(self._serialize('usages', script.usages()))
-        elif request['type'] == 'definitions':
-            self._write_response(self._serialize('definitions', script.goto_definitions()))
+        elif request['type'] == 'gotoDef':
+            self._write_response(self._serialize('gotoDef', script.goto_definitions()))
 
     def _write_response(self, response):
         sys.stdout.write(response + '\n')

@@ -8,7 +8,7 @@ module.exports = PythonTools =
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:show-usages': => @jediToolsRequest('usages')
-    @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:goto-definitions': => @jediToolsRequest('definitions')
+    @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:goto-definition': => @jediToolsRequest('gotoDef')
 
     @requests = {}
 
@@ -71,7 +71,7 @@ module.exports = PythonTools =
 
         editor.setSelectedBufferRanges(selections)
 
-      else if response['type'] == 'definitions'
+      else if response['type'] == 'gotoDef'
         first_def = response['definitions'][0]
 
         line = first_def['line']

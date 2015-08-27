@@ -5,7 +5,7 @@
       'command': 'python-tools:show-usages'
     },
     {
-      'label': 'Goto Definitions'
-      'command': 'python-tools:goto-definitions'
+      'label': 'Goto Definition'
+      'command': 'python-tools:goto-definition'
     }
   ]
