@@ -32,7 +32,6 @@ class JediTools(object):
         for definition in definitions:
             _definitions.append({
                 'path': definition.module_path,
-                'full_name': definition.full_name,
                 'name': definition.name,
                 'line': definition.line,
                 'col': definition.column,
