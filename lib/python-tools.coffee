@@ -88,7 +88,11 @@ module.exports = PythonTools =
             initialLine: line
             initialColumn: column
 
-          atom.workspace.open(first_def['path'], options)
+          atom.workspace.open(first_def['path'], options).then((editor) ->
+            # scroll to top first to get it centered correctly
+            editor.scrollToTop()
+            editor.scrollToCursorPosition()
+          )
 
   jediToolsRequest: (type) ->
     editor = atom.workspace.getActiveTextEditor()
