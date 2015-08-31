@@ -10,6 +10,12 @@ Uses [Jedi](https://pypi.python.org/pypi/jedi) internally to provide the followi
 - This will open any corresponding files if they are not already open (even if they form part of the standard library / are installed as a third party module)
 - More to come?
 
-Please note that this Atom package is very much a Work In Progress and is far from currently being perfect! There are a lot of things I will be looking to improve.
+## Windows Support
+Windows should work, however I do not have access to a Windows machine and cannot therefore test out releases (at least currently). If you have any issue running this
+package on windows then you should open an [Issue](https://github.com/michaelaquilina/python-tools/issues).
+
+## Work In Progress
+
+This Atom package is very much a Work In Progress and is far from currently being perfect! There are a lot of things I will be looking to improve.
 
 If you find anything which does not seem like expected behavior or have any suggestions, feel free to open an [Issue](https://github.com/michaelaquilina/python-tools/issues) on my Github page.

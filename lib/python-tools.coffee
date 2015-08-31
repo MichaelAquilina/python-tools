@@ -13,7 +13,21 @@ module.exports = PythonTools =
     @requests = {}
 
     env = process.env
-    paths = ['/usr/local/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin']
+    if /^win/.test process.platform
+      paths = ['C:\\Python2.7',
+               'C:\\Python3.4',
+               'C:\\Python3.5',
+               'C:\\Program Files (x86)\\Python 2.7',
+               'C:\\Program Files (x86)\\Python 3.4',
+               'C:\\Program Files (x86)\\Python 3.5',
+               'C:\\Program Files (x64)\\Python 2.7',
+               'C:\\Program Files (x64)\\Python 3.4',
+               'C:\\Program Files (x64)\\Python 3.5',
+               'C:\\Program Files\\Python 2.7',
+               'C:\\Program Files\\Python 3.4',
+               'C:\\Program Files\\Python 3.5']
+    else:
+      paths = ['/usr/local/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin']
     path_env = (env.PATH or '').split path.delimiter
     for p in paths
       if p not in path_env
