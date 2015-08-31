@@ -84,9 +84,11 @@ module.exports = PythonTools =
         column = first_def['col']
 
         if line != null and column != null
-          editor.setCursorBufferPosition(
-            new Point(line - 1, column)
-          )
+          options =
+            initialLine: line
+            initialColumn: column
+
+          atom.workspace.open(first_def['path'], options)
 
   jediToolsRequest: (type) ->
     editor = atom.workspace.getActiveTextEditor()
