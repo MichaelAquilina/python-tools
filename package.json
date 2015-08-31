@@ -2,7 +2,7 @@
   "name": "python-tools",
   "main": "./lib/python-tools",
   "version": "0.1.0",
-  "description": "Uses jedi to provide numerous tools useful for developing python code in atom.",
+  "description": "Goto definition, show usages, refactor/rename for python files",
   "keywords": [
     "python"
   ],
