@@ -1,7 +1,7 @@
 # python-tools package
 Some handy tools to make developing python in Atom even more enjoyable. Goes along really nicely with the [python-autocomplete](https://atom.io/packages/autocomplete-python) package to provide a full python IDE experience in Atom.
 
-![Demo](http://i738.photobucket.com/albums/xx27/Michael_Aquilina/output_zpsphgpl63x.gif)
+![Demo](http://i738.photobucket.com/albums/xx27/Michael_Aquilina/output_zps4qx1snfe.gif)
 
 Uses [Jedi](https://pypi.python.org/pypi/jedi) internally to provide the following functionality:
 - **Show usages**: select the usages of a specific symbol in your file.
