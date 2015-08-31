@@ -92,6 +92,10 @@ module.exports = PythonTools =
             editor.scrollToTop()
             editor.scrollToCursorPosition()
           )
+      else
+        atom.notifications.addWarning("python-tools received unknown response type '#{response['type']}'")
+    else
+      atom.notifications.addInfo("python-tools could not find any results!")
 
   jediToolsRequest: (type) ->
     editor = atom.workspace.getActiveTextEditor()
