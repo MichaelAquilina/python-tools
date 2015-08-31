@@ -59,8 +59,7 @@ module.exports = PythonTools =
     @provider.kill()
 
   _deserialize: (response) ->
-    console.log "Got some data back from tools.py"
-    console.log "#{response}"
+    console.log "tools.py => #{response}"
 
     response = JSON.parse(response)
 
