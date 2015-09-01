@@ -65,14 +65,14 @@ module.exports = PythonTools =
         )
 
     @readline = require('readline').createInterface(input: @provider.stdout)
-    @readline.on 'line', (response) => @_deserialize(response)
+    @readline.on 'line', (response) => @handleJediToolsResponse(response)
 
   deactivate: ->
     @subscriptions.dispose()
     @readline.close()
     @provider.kill()
 
-  _deserialize: (response) ->
+  handleJediToolsResponse: (response) ->
     console.log "tools.py => #{response}"
 
     response = JSON.parse(response)
