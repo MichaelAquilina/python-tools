@@ -100,6 +100,7 @@ module.exports = PythonTools =
           options =
             initialLine: line
             initialColumn: column
+            searchAllPanes: true
 
           atom.workspace.open(first_def['path'], options).then((editor) ->
             # scroll to top first to get it centered correctly
