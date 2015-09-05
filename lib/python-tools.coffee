@@ -81,12 +81,14 @@ module.exports = PythonTools =
       editor = atom.workspace.getActiveTextEditor()
 
       if response['type'] == 'usages'
+        path = editor.getPath()
         selections = []
         for item in response['definitions']
-          selections.push new Range(
-            new Point(item['line'] - 1, item['col']),
-            new Point(item['line'] - 1, item['col'] + item['name'].length),  # Use string length
-          )
+          if item['path'] == path
+            selections.push new Range(
+              new Point(item['line'] - 1, item['col']),
+              new Point(item['line'] - 1, item['col'] + item['name'].length),  # Use string length
+            )
 
         editor.setSelectedBufferRanges(selections)
 
