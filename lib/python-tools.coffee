@@ -65,18 +65,18 @@ module.exports = PythonTools =
         )
 
     @readline = require('readline').createInterface(input: @provider.stdout)
-    @readline.on 'line', (response) => @handleJediToolsResponse(response)
+    @readline.on 'line', (response) => @handleJsonResponse(response)
 
   deactivate: ->
     @subscriptions.dispose()
     @readline.close()
     @provider.kill()
 
-  handleJediToolsResponse: (response) ->
+  handleJsonResponse: (response) ->
     console.log "tools.py => #{response}"
+    @handleJediToolsResponse(JSON.parse(response))
 
-    response = JSON.parse(response)
-
+  handleJediToolsResponse: (response) ->
     if response['definitions'].length > 0
       editor = atom.workspace.getActiveTextEditor()
 
