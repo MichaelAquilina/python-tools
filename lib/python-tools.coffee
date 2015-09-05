@@ -110,7 +110,12 @@ module.exports = PythonTools =
             editor.scrollToCursorPosition()
           )
       else
-        atom.notifications.addWarning("python-tools received unknown response type '#{response['type']}'")
+        atom.notifications.addError(
+          "python-tools error. #{@_issueReportLink}", {
+            detail: JSON.stringify(response),
+            dismissable: true
+          }
+        )
     else
       atom.notifications.addInfo("python-tools could not find any results!")
 
