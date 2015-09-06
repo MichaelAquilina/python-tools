@@ -11,7 +11,7 @@ Uses [Jedi](https://pypi.python.org/pypi/jedi) internally to provide the followi
 - **Show usages**: select the usages of a specific symbol in your file.
 - This should allow you to quickly refactor/rename variable within your code.
 - **Goto definition**: goto to the original definition of the symbol under the cursor.
-    - This will the corresponding file if it's not already open (even if it forms part of the standard library / is installed as a third party module)
+    - This will open the corresponding file if it's not already open (even if it forms part of the standard library / is installed as a third party module)
 - More tools to come?
 
 ## Windows Support
