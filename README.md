@@ -1,6 +1,7 @@
 # python-tools package
 
 [![Build Status](https://travis-ci.org/MichaelAquilina/python-tools.svg)](https://travis-ci.org/michaelaquilina/python-tools)
+[![Build Status Windows](https://ci.appveyor.com/api/projects/status/jnu90b2bgqar87es?svg=true)](https://ci.appveyor.com/project/MichaelAquilina/python-tools)
 
 Some handy tools to make developing python in Atom even more enjoyable. Goes along really nicely with the [python-autocomplete](https://atom.io/packages/autocomplete-python) package to provide a full python IDE experience in Atom.
 
