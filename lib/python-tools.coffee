@@ -83,7 +83,6 @@ module.exports = PythonTools =
     @provider.kill()
 
   selectAllString: ->
-    console.log 'doing stuff'
     editor = atom.workspace.getActiveTextEditor()
     bufferPosition = editor.getCursorBufferPosition()
     line = editor.lineTextForBufferRow(bufferPosition.row)
