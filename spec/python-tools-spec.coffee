@@ -86,7 +86,7 @@ describe "PythonTools", ->
       [notification] = atom.notifications.getNotifications()
       expect(notification.type).toBe 'info'
 
-    it "informs the user with an error notifiation on invalid type", ->
+    it "informs the user with an error notification on invalid type", ->
       pythonTools.handleJediToolsResponse(
         type: "monkeys"
         definitions: [{
