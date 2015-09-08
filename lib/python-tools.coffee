@@ -92,9 +92,13 @@ module.exports = PythonTools =
 
     while line[start] != '\'' and line[start] != '"'
       start = start - 1
+      if start < 0
+        return
 
     while line[end] != line[start]
       end = end + 1
+      if end == line.length
+        return
 
     editor.setSelectedBufferRange(new Range(
       new Point(bufferPosition.row, start + 1),
