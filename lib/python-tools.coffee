@@ -7,8 +7,18 @@ module.exports = PythonTools =
   activate: (state) ->
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
-    @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:show-usages': => @jediToolsRequest('usages')
-    @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:goto-definition': => @jediToolsRequest('gotoDef')
+    @subscriptions.add(
+      atom.commands.add 'atom-text-editor',
+      'python-tools:show-usages': => @jediToolsRequest('usages')
+    )
+    @subscriptions.add(
+      atom.commands.add 'atom-text-editor',
+      'python-tools:goto-definition': => @jediToolsRequest('gotoDef')
+    )
+    @subscriptions.add(
+      atom.commands.add 'atom-text-editor',
+      'python-tools:select-all-string': => @selectAllString()
+    )
 
     @requests = {}
 
@@ -71,6 +81,65 @@ module.exports = PythonTools =
     @subscriptions.dispose()
     @readline.close()
     @provider.kill()
+
+  selectAllString: ->
+    console.log 'doing stuff'
+    editor = atom.workspace.getActiveTextEditor()
+    bufferPosition = editor.getCursorBufferPosition()
+    line = editor.lineTextForBufferRow(bufferPosition.row)
+
+    scopeDescriptor = editor.scopeDescriptorForBufferPosition(bufferPosition)
+    scopes = scopeDescriptor.getScopesArray()
+
+    block = false
+    if "string.quoted.single.single-line.python" in scopes
+      delimiter = '\''
+    else if 'string.quoted.double.single-line.python' in scopes
+      delimiter = '"'
+    else if 'string.quoted.double.block.python' in scopes
+      delimiter = '"""'
+      block = true
+    else if 'string.quoted.single.block.python' in scopes
+      delimiter = '\'\'\''
+      block = true
+    else
+      return
+
+    if not block
+      start = end = bufferPosition.column
+
+      while line[start] != delimiter
+        start = start - 1
+        if start < 0
+          return
+
+      while line[end] != delimiter
+        end = end + 1
+        if end == line.length
+          return
+
+      editor.setSelectedBufferRange(new Range(
+        new Point(bufferPosition.row, start + 1),
+        new Point(bufferPosition.row, end),
+      ))
+    else
+      start = end = bufferPosition.row
+      start_index = end_index = -1
+
+      while start_index == -1
+        start = start - 1
+        line = editor.lineTextForBufferRow(start)
+        start_index = line.indexOf(delimiter)
+
+      while end_index == -1
+        end = end + 1
+        line = editor.lineTextForBufferRow(end)
+        end_index = line.indexOf(delimiter)
+
+      editor.setSelectedBufferRange(new Range(
+        new Point(start, start_index + delimiter.length),
+        new Point(end, end_index),
+      ))
 
   handleJsonResponse: (response) ->
     console.log "tools.py => #{response}"
