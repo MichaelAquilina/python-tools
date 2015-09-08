@@ -90,31 +90,56 @@ module.exports = PythonTools =
 
     scopeDescriptor = editor.scopeDescriptorForBufferPosition(bufferPosition)
     scopes = scopeDescriptor.getScopesArray()
-    debugger;
 
+    block = false
     if "string.quoted.single.single-line.python" in scopes
       delimiter = '\''
-    else if  'string.quoted.double.single-line.python' in scopes
+    else if 'string.quoted.double.single-line.python' in scopes
       delimiter = '"'
+    else if 'string.quoted.double.block.python' in scopes
+      delimiter = '"""'
+      block = true
+    else if 'string.quoted.single.block.python' in scopes
+      delimiter = '\'\'\''
+      block = true
     else
       return
 
-    start = end = bufferPosition.column
+    if not block
+      start = end = bufferPosition.column
 
-    while line[start] != delimiter
-      start = start - 1
-      if start < 0
-        return
+      while line[start] != delimiter
+        start = start - 1
+        if start < 0
+          return
 
-    while line[end] != delimiter
-      end = end + 1
-      if end == line.length
-        return
+      while line[end] != delimiter
+        end = end + 1
+        if end == line.length
+          return
 
-    editor.setSelectedBufferRange(new Range(
-      new Point(bufferPosition.row, start + 1),
-      new Point(bufferPosition.row, end),
-    ))
+      editor.setSelectedBufferRange(new Range(
+        new Point(bufferPosition.row, start + 1),
+        new Point(bufferPosition.row, end),
+      ))
+    else
+      start = end = bufferPosition.row
+      start_index = end_index = -1
+
+      while start_index == -1
+        start = start - 1
+        line = editor.lineTextForBufferRow(start)
+        start_index = line.indexOf(delimiter)
+
+      while end_index == -1
+        end = end + 1
+        line = editor.lineTextForBufferRow(end)
+        end_index = line.indexOf(delimiter)
+
+      editor.setSelectedBufferRange(new Range(
+        new Point(start, start_index + delimiter.length),
+        new Point(end, end_index),
+      ))
 
   handleJsonResponse: (response) ->
     console.log "tools.py => #{response}"
