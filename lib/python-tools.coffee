@@ -88,14 +88,25 @@ module.exports = PythonTools =
     bufferPosition = editor.getCursorBufferPosition()
     line = editor.lineTextForBufferRow(bufferPosition.row)
 
+    scopeDescriptor = editor.scopeDescriptorForBufferPosition(bufferPosition)
+    scopes = scopeDescriptor.getScopesArray()
+    debugger;
+
+    if "string.quoted.single.single-line.python" in scopes
+      delimiter = '\''
+    else if  'string.quoted.double.single-line.python' in scopes
+      delimiter = '"'
+    else
+      return
+
     start = end = bufferPosition.column
 
-    while line[start] != '\'' and line[start] != '"'
+    while line[start] != delimiter
       start = start - 1
       if start < 0
         return
 
-    while line[end] != line[start]
+    while line[end] != delimiter
       end = end + 1
       if end == line.length
         return
