@@ -32,6 +32,7 @@ describe "PythonTools", ->
           SELECT * FROM foo
           '''
         """)
+
     it "selects single-line single qoutes correctly", ->
         editor.setCursorBufferPosition(new Point(1, 17))
         pythonTools.selectAllString()
