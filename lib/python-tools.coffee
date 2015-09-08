@@ -7,8 +7,18 @@ module.exports = PythonTools =
   activate: (state) ->
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
-    @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:show-usages': => @jediToolsRequest('usages')
-    @subscriptions.add atom.commands.add 'atom-text-editor', 'python-tools:goto-definition': => @jediToolsRequest('gotoDef')
+    @subscriptions.add(
+      atom.commands.add 'atom-text-editor',
+      'python-tools:show-usages': => @jediToolsRequest('usages')
+    )
+    @subscriptions.add(
+      atom.commands.add 'atom-text-editor',
+      'python-tools:goto-definition': => @jediToolsRequest('gotoDef')
+    )
+    @subscriptions.add(
+      atom.commands.add 'atom-text-editor',
+      'python-tools:select-all-string': => @selectAllString()
+    )
 
     @requests = {}
 
@@ -71,6 +81,25 @@ module.exports = PythonTools =
     @subscriptions.dispose()
     @readline.close()
     @provider.kill()
+
+  selectAllString: ->
+    console.log 'doing stuff'
+    editor = atom.workspace.getActiveTextEditor()
+    bufferPosition = editor.getCursorBufferPosition()
+    line = editor.lineTextForBufferRow(bufferPosition.row)
+
+    start = end = bufferPosition.column
+
+    while line[start] != '\'' and line[start] != '"'
+      start = start - 1
+
+    while line[end] != line[start]
+      end = end + 1
+
+    editor.setSelectedBufferRange(new Range(
+      new Point(bufferPosition.row, start + 1),
+      new Point(bufferPosition.row, end),
+    ))
 
   handleJsonResponse: (response) ->
     console.log "tools.py => #{response}"
