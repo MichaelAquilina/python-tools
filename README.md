@@ -9,9 +9,10 @@ Some handy tools to make developing python in Atom even more enjoyable. Goes alo
 
 Uses [Jedi](https://pypi.python.org/pypi/jedi) internally to provide the following functionality:
 - **Show usages**: select the usages of a specific symbol in your file.
-- This should allow you to quickly refactor/rename variable within your code.
-- **Goto definition**: goto to the original definition of the symbol under the cursor.
+- This should allow you to quickly refactor/rename variable within your code. Default shortcut is `ctrl+alt+u`
+- **Goto definition**: goto to the original definition of the symbol under the cursor. Default shortcut is `ctrl+alt+g`
     - This will open the corresponding file if it's not already open (even if it forms part of the standard library / is installed as a third party module)
+- **Select all string**: Select the entire contents of the string currently being selected. Works with single line as well as block strings. Default shortcut is `ctrl+alt+e`
 - More tools to come?
 
 ## Windows Support
