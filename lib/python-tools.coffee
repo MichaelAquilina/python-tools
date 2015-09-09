@@ -1,7 +1,13 @@
 {Range, Point, CompositeDisposable} = require 'atom'
 path = require 'path'
 
-module.exports = PythonTools =
+regexPatternIn = (pattern, list) ->
+  for item in list
+    if pattern.test item
+      return true
+  return false
+
+PythonTools =
   subscriptions: null
 
   activate: (state) ->
@@ -91,14 +97,14 @@ module.exports = PythonTools =
     scopes = scopeDescriptor.getScopesArray()
 
     block = false
-    if "string.quoted.single.single-line.python" in scopes
+    if regexPatternIn(/string.quoted.single.single-line.*/, scopes)
       delimiter = '\''
-    else if 'string.quoted.double.single-line.python' in scopes
+    else if regexPatternIn(/string.quoted.double.single-line.*/, scopes)
       delimiter = '"'
-    else if 'string.quoted.double.block.python' in scopes
+    else if regexPatternIn(/string.quoted.double.block.*/,scopes)
       delimiter = '"""'
       block = true
-    else if 'string.quoted.single.block.python' in scopes
+    else if regexPatternIn(/string.quoted.single.block.*/, scopes)
       delimiter = '\'\'\''
       block = true
     else
@@ -125,15 +131,21 @@ module.exports = PythonTools =
       start = end = bufferPosition.row
       start_index = end_index = -1
 
-      while start_index == -1
-        start = start - 1
+      while true
         line = editor.lineTextForBufferRow(start)
         start_index = line.indexOf(delimiter)
+        if start_index == -1
+          start = start - 1
+        else
+          break
 
-      while end_index == -1
-        end = end + 1
+      while true
         line = editor.lineTextForBufferRow(end)
         end_index = line.indexOf(delimiter)
+        if end_index == -1
+          end = end + 1
+        else
+          break
 
       editor.setSelectedBufferRange(new Range(
         new Point(start, start_index + delimiter.length),
@@ -203,3 +215,5 @@ module.exports = PythonTools =
         col: bufferPosition.column
 
       @provider.stdin.write(JSON.stringify(payload) + '\n')
+
+module.exports = PythonTools

@@ -29,7 +29,13 @@ describe "PythonTools", ->
           Huge success!
           \"\"\"
           more_blocks = '''
-          SELECT * FROM foo
+          This is some text
+          '''
+          sql_text = \"\"\"SELECT *
+          FROM foo
+          \"\"\"
+          sql_text2 = '''SELECT *
+          FROM bar
           '''
         """)
 
@@ -51,7 +57,7 @@ describe "PythonTools", ->
           )
         )
 
-    it "selects double-line double qoutes correctly", ->
+    it "selects block string double qoutes correctly", ->
         editor.setCursorBufferPosition(new Point(4, 15))
         pythonTools.selectAllString()
         expect(editor.getSelectedBufferRange()).toEqual(new Range(
@@ -60,12 +66,30 @@ describe "PythonTools", ->
           )
         )
 
-    it "selects double-line single qoutes correctly", ->
+    it "selects block string single qoutes correctly", ->
         editor.setCursorBufferPosition(new Point(9, 15))
         pythonTools.selectAllString()
         expect(editor.getSelectedBufferRange()).toEqual(new Range(
             new Point(8, 19),
             new Point(10, 2),
+          )
+        )
+
+    it "it selects block SQL double qoutes correctly", ->
+        editor.setCursorBufferPosition(new Point(12, 20))
+        pythonTools.selectAllString()
+        expect(editor.getSelectedBufferRange()).toEqual(new Range(
+            new Point(11, 16),
+            new Point(13, 2),
+          )
+        )
+
+    it "it selects block SQL single qoutes correctly", ->
+        editor.setCursorBufferPosition(new Point(14, 20))
+        pythonTools.selectAllString()
+        expect(editor.getSelectedBufferRange()).toEqual(new Range(
+            new Point(14, 17),
+            new Point(16, 2),
           )
         )
 
