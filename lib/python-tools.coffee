@@ -131,21 +131,17 @@ PythonTools =
       start = end = bufferPosition.row
       start_index = end_index = -1
 
-      while true
+      line = editor.lineTextForBufferRow(start)
+
+      while start_index == -1
+        start = start - 1
         line = editor.lineTextForBufferRow(start)
         start_index = line.indexOf(delimiter)
-        if start_index == -1
-          start = start - 1
-        else
-          break
 
-      while true
+      while end_index == -1
+        end = end + 1
         line = editor.lineTextForBufferRow(end)
         end_index = line.indexOf(delimiter)
-        if end_index == -1
-          end = end + 1
-        else
-          break
 
       editor.setSelectedBufferRange(new Range(
         new Point(start, start_index + delimiter.length),
