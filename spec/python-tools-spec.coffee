@@ -59,6 +59,7 @@ describe "PythonTools", ->
         )
 
     it "selects block string double qoutes correctly", ->
+        atom.config.set('python-tools.smartBlockSelection', false)
         editor.setCursorBufferPosition(new Point(4, 15))
         pythonTools.selectAllString()
         expect(editor.getSelectedBufferRange()).toEqual(new Range(
@@ -67,7 +68,17 @@ describe "PythonTools", ->
           )
         )
 
+    it "smart selects double qoutes correctly", ->
+        editor.setCursorBufferPosition(new Point(4, 15))
+        pythonTools.selectAllString()
+        expect(editor.getSelectedBufferRanges()).toEqual([
+          new Range(new Point(4, 2), new Point(4, 21)),
+          new Range(new Point(5, 2), new Point(5, 25)),
+          new Range(new Point(6, 2), new Point(6, 15)),
+        ])
+
     it "selects block string single qoutes correctly", ->
+        atom.config.set('python-tools.smartBlockSelection', false)
         editor.setCursorBufferPosition(new Point(9, 15))
         pythonTools.selectAllString()
         expect(editor.getSelectedBufferRange()).toEqual(new Range(
@@ -76,7 +87,15 @@ describe "PythonTools", ->
           )
         )
 
+    it "smart selects single qoutes correctly", ->
+        editor.setCursorBufferPosition(new Point(9, 15))
+        pythonTools.selectAllString()
+        expect(editor.getSelectedBufferRanges()).toEqual([
+          new Range(new Point(9, 2), new Point(9, 19)),
+        ])
+
     it "it selects block SQL double qoutes correctly", ->
+        atom.config.set('python-tools.smartBlockSelection', false)
         editor.setCursorBufferPosition(new Point(12, 20))
         pythonTools.selectAllString()
         expect(editor.getSelectedBufferRange()).toEqual(new Range(
@@ -86,6 +105,7 @@ describe "PythonTools", ->
         )
 
     it "it selects block SQL single qoutes correctly", ->
+        atom.config.set('python-tools.smartBlockSelection', false)
         editor.setCursorBufferPosition(new Point(14, 20))
         pythonTools.selectAllString()
         expect(editor.getSelectedBufferRange()).toEqual(new Range(
