@@ -128,23 +128,35 @@ PythonTools =
         new Point(bufferPosition.row, end),
       ))
     else
-      #  We can use a scope lookup on the delimiters position to determine
-      #  if I am at the end or beginning of the string block
-
       start = end = bufferPosition.row
       start_index = end_index = -1
 
-      line = editor.lineTextForBufferRow(start)
-
-      while start_index == -1
-        start = start - 1
-        line = editor.lineTextForBufferRow(start)
-        start_index = line.indexOf(delimiter)
-
-      while end_index == -1
-        end = end + 1
-        line = editor.lineTextForBufferRow(end)
-        end_index = line.indexOf(delimiter)
+      # TODO: This could do with some documentation and cleanup!
+      delim_index = line.indexOf(delimiter)
+      if delim_index != -1
+        scopes = editor.scopeDescriptorForBufferPosition(new Point(start, delim_index))
+        scopes = scopes.getScopesArray()
+        if regexPatternIn(/punctuation.definition.string.begin.*/, scopes)
+          start_index = line.indexOf(delimiter)
+          while end_index == -1
+            end = end + 1
+            line = editor.lineTextForBufferRow(end)
+            end_index = line.indexOf(delimiter)
+        else if regexPatternIn(/punctuation.definition.string.end.*/, scopes)
+          end_index = line.indexOf(delimiter)
+          while start_index == -1
+            start = start - 1
+            line = editor.lineTextForBufferRow(start)
+            start_index = line.indexOf(delimiter)
+      else
+        while end_index == -1
+          end = end + 1
+          line = editor.lineTextForBufferRow(end)
+          end_index = line.indexOf(delimiter)
+        while start_index == -1
+          start = start - 1
+          line = editor.lineTextForBufferRow(start)
+          start_index = line.indexOf(delimiter)
 
       editor.setSelectedBufferRange(new Range(
         new Point(start, start_index + delimiter.length),
