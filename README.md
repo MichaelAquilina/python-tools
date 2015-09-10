@@ -1,23 +1,47 @@
-# python-tools package
+# Python Tools
 
 [![Build Status](https://travis-ci.org/MichaelAquilina/python-tools.svg)](https://travis-ci.org/MichaelAquilina/python-tools)
 [![Build Status Windows](https://ci.appveyor.com/api/projects/status/jnu90b2bgqar87es?svg=true)](https://ci.appveyor.com/project/MichaelAquilina/python-tools)
 
-Some handy tools to make developing python in Atom even more enjoyable. Goes along really nicely with the [python-autocomplete](https://atom.io/packages/autocomplete-python) package to provide a full python IDE experience in Atom.
+Some handy tools to make developing Python in Atom even more enjoyable.
+
+Goes along really nicely with the [python-autocomplete](https://atom.io/packages/autocomplete-python) package to provide a full Python IDE experience in Atom.
 
 ![Demo](http://i738.photobucket.com/albums/xx27/Michael_Aquilina/output_zps4qx1snfe.gif)
 
-Uses [Jedi](https://pypi.python.org/pypi/jedi) internally to provide the following functionality:
-- **Show usages**: select the usages of a specific symbol in your file.
-- This should allow you to quickly refactor/rename variable within your code. Default shortcut is `ctrl+alt+u`
-- **Goto definition**: goto to the original definition of the symbol under the cursor. Default shortcut is `ctrl+alt+g`
-    - This will open the corresponding file if it's not already open (even if it forms part of the standard library / is installed as a third party module)
-- **Select all string**: Select the entire contents of the string currently being selected. Works with single line as well as block strings. Default shortcut is `ctrl+alt+e`
-- More tools to come?
+## Details
+
+This package uses [Jedi](https://pypi.python.org/pypi/jedi) as well as custom methods to provide numerous pieces of functionality:
+
+### Show usages
+Default shortcut: `ctrl+alt+u`
+
+Select the usages of a specific symbol in your file.
+
+This is particularly handy for quickly refactoring/renaming variables and other symbols within your code.
+
+Currently only supports detection of symbols within the same file. This will be extended to support usages outside the current file in the future.
+
+### Goto definition
+Default shortcut: `ctrl+alt+g`
+
+Go to to the original definition of the symbol under the cursor. This will open the corresponding file if it is not already open.
+
+Files which form part of the standard library / are installed as third party modules are still opened, which is a really nice way of analysing and understanding behavior of code.
+
+### Select all string
+Default shortcut: `ctrl+alt+e`
+
+Select the entire contents of the string currently being selected.
+
+Works with single line as well as block strings.
+
+#### More tools to come?
 
 ## Windows Support
-Windows should work, however I do not have access to a Windows machine and cannot therefore test out releases (at least currently). If you have any issue running this
-package on windows then you should open an [Issue](https://github.com/michaelaquilina/python-tools/issues).
+Windows should work, however I do not have access to a Windows machine and cannot therefore test out releases (at least currently). I have builds being tested on appveyor which should prevent any obvious issues from being an issue.
+
+If you have any issue running this package on windows then you please open an [Issue](https://github.com/michaelaquilina/python-tools/issues).
 
 ## Work In Progress
 
