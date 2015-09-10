@@ -9,10 +9,18 @@ regexPatternIn = (pattern, list) ->
 
 PythonTools =
   config:
-    smart_block_selection:
+    smartBlockSelection:
       type: 'boolean'
       description: 'Do not select whitespace outside logical string blocks'
       default: true
+    pythonPath:
+      type: 'string'
+      default: ''
+      title: 'Path to python directory'
+      description: '''
+      Optional. Set it if default values are not working for you or you want to use specific
+      python version. For example: `/usr/local/Cellar/python/2.7.3/bin` or `E:\\Python2.7`
+      '''
 
   subscriptions: null
 
@@ -35,6 +43,8 @@ PythonTools =
     @requests = {}
 
     env = process.env
+    pythonPath = atom.config.get('python-tools.pythonPath')
+
     if /^win/.test process.platform
       paths = ['C:\\Python2.7',
                'C:\\Python3.4',
@@ -51,6 +61,7 @@ PythonTools =
     else:
       paths = ['/usr/local/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin']
     path_env = (env.PATH or '').split path.delimiter
+    path_env.unshift pythonPath if pythonPath and pythonPath not in path_env
     for p in paths
       if p not in path_env
         path_env.push p
@@ -171,7 +182,7 @@ PythonTools =
           line = editor.lineTextForBufferRow(start)
           start_index = line.indexOf(delimiter)
 
-      if atom.config.get('python-tools.smart_block_selection')
+      if atom.config.get('python-tools.smartBlockSelection')
         # Smart block selections
         selections = []
         start_range = new Range(
