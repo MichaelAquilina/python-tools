@@ -131,17 +131,19 @@ PythonTools =
       start = end = bufferPosition.row
       start_index = end_index = -1
 
-      # TODO: This could do with some documentation and cleanup!
+      # Detect if we are at the boundaries of the block string
       delim_index = line.indexOf(delimiter)
       if delim_index != -1
         scopes = editor.scopeDescriptorForBufferPosition(new Point(start, delim_index))
         scopes = scopes.getScopesArray()
+        # We are at the beginning of the block
         if regexPatternIn(/punctuation.definition.string.begin.*/, scopes)
           start_index = line.indexOf(delimiter)
           while end_index == -1
             end = end + 1
             line = editor.lineTextForBufferRow(end)
             end_index = line.indexOf(delimiter)
+        # We are the end of the block
         else if regexPatternIn(/punctuation.definition.string.end.*/, scopes)
           end_index = line.indexOf(delimiter)
           while start_index == -1
@@ -149,6 +151,7 @@ PythonTools =
             line = editor.lineTextForBufferRow(start)
             start_index = line.indexOf(delimiter)
       else
+        # We are neither at the beginning or the end of the block
         while end_index == -1
           end = end + 1
           line = editor.lineTextForBufferRow(end)
