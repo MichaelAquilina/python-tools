@@ -8,6 +8,12 @@ regexPatternIn = (pattern, list) ->
   return false
 
 PythonTools =
+  config:
+    smart_block_selection:
+      type: 'boolean'
+      description: 'Do not select whitespace outside logical string blocks'
+      default: true
+
   subscriptions: null
 
   activate: (state) ->
@@ -133,9 +139,11 @@ PythonTools =
 
       # Detect if we are at the boundaries of the block string
       delim_index = line.indexOf(delimiter)
+
       if delim_index != -1
         scopes = editor.scopeDescriptorForBufferPosition(new Point(start, delim_index))
         scopes = scopes.getScopesArray()
+
         # We are at the beginning of the block
         if regexPatternIn(/punctuation.definition.string.begin.*/, scopes)
           start_index = line.indexOf(delimiter)
@@ -143,6 +151,7 @@ PythonTools =
             end = end + 1
             line = editor.lineTextForBufferRow(end)
             end_index = line.indexOf(delimiter)
+
         # We are the end of the block
         else if regexPatternIn(/punctuation.definition.string.end.*/, scopes)
           end_index = line.indexOf(delimiter)
@@ -150,6 +159,7 @@ PythonTools =
             start = start - 1
             line = editor.lineTextForBufferRow(start)
             start_index = line.indexOf(delimiter)
+
       else
         # We are neither at the beginning or the end of the block
         while end_index == -1
@@ -161,10 +171,40 @@ PythonTools =
           line = editor.lineTextForBufferRow(start)
           start_index = line.indexOf(delimiter)
 
-      editor.setSelectedBufferRange(new Range(
-        new Point(start, start_index + delimiter.length),
-        new Point(end, end_index),
-      ))
+      if atom.config.get('python-tools.smart_block_selection')
+        # Smart block selections
+        selections = []
+        start_range = new Range(
+          new Point(start, start_index + delimiter.length),
+          new Point(start, editor.lineTextForBufferRow(start).length),
+        )
+        if not start_range.isEmpty()
+          selections.push start_range
+
+        for i in [start + 1 ... end] by 1
+          line = editor.lineTextForBufferRow(i)
+          trimmed = line.replace(/^\s+/,"")  # left trim
+          selections.push new Range(
+            new Point(i, line.length - trimmed.length),
+            new Point(i, line.length),
+          )
+
+        line = editor.lineTextForBufferRow(end)
+        trimmed = line.replace(/^\s+/,"")  # left trim
+
+        end_range = Range(
+          new Point(end, line.length - trimmed.length),
+          new Point(end, end_index),
+        )
+        if not end_range.isEmpty()
+          selections.push new end_range
+
+        editor.setSelectedBufferRanges(selections)
+      else
+        editor.setSelectedBufferRange(new Range(
+          new Point(start, start_index + delimiter.length),
+          new Point(end, end_index),
+        ))
 
   handleJsonResponse: (response) ->
     console.log "tools.py => #{response}"
