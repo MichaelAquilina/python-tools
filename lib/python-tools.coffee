@@ -128,6 +128,9 @@ PythonTools =
         new Point(bufferPosition.row, end),
       ))
     else
+      #  We can use a scope lookup on the delimiters position to determine
+      #  if I am at the end or beginning of the string block
+
       start = end = bufferPosition.row
       start_index = end_index = -1
 
