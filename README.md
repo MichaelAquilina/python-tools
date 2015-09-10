@@ -13,7 +13,7 @@ Goes along really nicely with the [python-autocomplete](https://atom.io/packages
 
 This package uses [Jedi](https://pypi.python.org/pypi/jedi) as well as custom methods to provide numerous pieces of functionality:
 
-### Show usages
+### Show Usages
 Default shortcut: `ctrl+alt+u`
 
 Select the usages of a specific symbol in your file.
@@ -22,14 +22,14 @@ This is particularly handy for quickly refactoring/renaming variables and other 
 
 Currently only supports detection of symbols within the same file. This will be extended to support usages outside the current file in the future.
 
-### Goto definition
+### Goto Definition
 Default shortcut: `ctrl+alt+g`
 
 Go to to the original definition of the symbol under the cursor. This will open the corresponding file if it is not already open.
 
 Files which form part of the standard library / are installed as third party modules are still opened, which is a really nice way of analysing and understanding behavior of code.
 
-### Select all string
+### Select String Contents
 Default shortcut: `ctrl+alt+e`
 
 Select the entire contents of the string currently being selected.
@@ -39,7 +39,9 @@ Works with single line as well as block strings.
 #### More tools to come?
 
 ## Windows Support
-Windows should work, however I do not have access to a Windows machine and cannot therefore test out releases (at least currently). I have builds being tested on appveyor which should prevent any obvious issues from being an issue.
+Windows should work, however I do not have access to a Windows machine and cannot therefore test out releases.
+
+I have builds being tested on appveyor which should prevent any obvious errors from causing breakages.
 
 If you have any issue running this package on windows then you please open an [Issue](https://github.com/michaelaquilina/python-tools/issues).
 
