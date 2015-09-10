@@ -43,7 +43,7 @@ Windows should work, however I do not have access to a Windows machine and canno
 
 I have builds being tested on appveyor which should prevent any obvious errors from causing breakages.
 
-If you have any issue running this package on windows then you please open an [Issue](https://github.com/michaelaquilina/python-tools/issues).
+If you have any issue running this package on windows then please open an [Issue](https://github.com/michaelaquilina/python-tools/issues).
 
 ## Work In Progress
 
