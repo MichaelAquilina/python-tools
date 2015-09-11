@@ -184,13 +184,10 @@ PythonTools =
 
       if atom.config.get('python-tools.smartBlockSelection')
         # Smart block selections
-        selections = []
-        start_range = new Range(
+        selections = [new Range(
           new Point(start, start_index + delimiter.length),
           new Point(start, editor.lineTextForBufferRow(start).length),
-        )
-        if not start_range.isEmpty()
-          selections.push start_range
+        )]
 
         for i in [start + 1 ... end] by 1
           line = editor.lineTextForBufferRow(i)
@@ -203,14 +200,12 @@ PythonTools =
         line = editor.lineTextForBufferRow(end)
         trimmed = line.replace(/^\s+/,"")  # left trim
 
-        end_range = Range(
+        selections.push new Range(
           new Point(end, line.length - trimmed.length),
           new Point(end, end_index),
         )
-        if not end_range.isEmpty()
-          selections.push new end_range
 
-        editor.setSelectedBufferRanges(selections)
+        editor.setSelectedBufferRanges(selections.filter (range) -> not range.isEmpty())
       else
         editor.setSelectedBufferRange(new Range(
           new Point(start, start_index + delimiter.length),
