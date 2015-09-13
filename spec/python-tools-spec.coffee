@@ -50,6 +50,16 @@ describe "PythonTools", ->
         pythonTools.jediToolsRequest('gotoDef').then ->
           expect(editor.getCursorBufferPosition()).toEqual new Point(9, 7)
 
+    it "opens appropriate file if required", ->
+      editor.setCursorBufferPosition(new Point(0, 9))
+      spyOn(atom.workspace, 'open').andCallThrough()
+      waitsForPromise ->
+        pythonTools.jediToolsRequest('gotoDef').then ->
+          expect(atom.workspace.open).toHaveBeenCalledWith(
+            '/usr/lib/python2.7/json/__init__.py',
+            {initialLine: 1, initialColumn: 0, searchAllPanes: true},
+          )
+
   describe "when running the show usages command", ->
     editor = null
     beforeEach ->
