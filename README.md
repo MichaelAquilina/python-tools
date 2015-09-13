@@ -5,7 +5,7 @@
 
 Some handy tools to make developing Python in Atom even more enjoyable.
 
-Goes along really nicely with the [python-autocomplete](https://atom.io/packages/autocomplete-python) package to provide a full Python IDE experience in Atom.
+Goes along really nicely with the [autocomplete-python](https://atom.io/packages/autocomplete-python) package to provide a full Python IDE experience in Atom.
 
 ## Details
 
