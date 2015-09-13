@@ -55,10 +55,8 @@ describe "PythonTools", ->
       spyOn(atom.workspace, 'open').andCallThrough()
       waitsForPromise ->
         pythonTools.jediToolsRequest('gotoDef').then ->
-          expect(atom.workspace.open).toHaveBeenCalledWith(
-            '/usr/lib/python2.7/json/__init__.py',
-            {initialLine: 1, initialColumn: 0, searchAllPanes: true},
-          )
+          path = atom.workspace.open.mostRecentCall.args[0]
+          expect(path).toMatch(/.*\/json\/__init__.py/)
 
   describe "when running the show usages command", ->
     editor = null
