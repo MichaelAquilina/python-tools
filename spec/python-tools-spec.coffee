@@ -11,6 +11,45 @@ describe "PythonTools", ->
     runs ->
       pythonTools = atom.packages.getActivePackage('python-tools').mainModule
 
+  describe "when running the goto definitions command", ->
+    editor = null
+    beforeEach ->
+      waitsForPromise ->
+        atom.workspace.open('mike.py')
+
+      runs ->
+        editor = atom.workspace.getActiveTextEditor()
+        editor.setText("""
+        import json
+
+        class Snake(object):
+            def slither(self, dict):
+                return json.dumps(dict)
+
+        snake = Snake()
+        snake.slither({'x': 10, 'y': 20})
+
+        i_dont_exist()
+        """)
+
+    it "moves to the correct class location", ->
+      editor.setCursorBufferPosition(new Point(6, 9))
+      waitsForPromise ->
+        pythonTools.jediToolsRequest('gotoDef').then ->
+          expect(editor.getCursorBufferPosition()).toEqual new Point(3, 6)
+
+    it "moves to the correct method location", ->
+      editor.setCursorBufferPosition(new Point(7, 7))
+      waitsForPromise ->
+        pythonTools.jediToolsRequest('gotoDef').then ->
+          expect(editor.getCursorBufferPosition()).toEqual new Point(4, 8)
+
+    it "does nothing if symbol does not exist", ->
+      editor.setCursorBufferPosition(new Point(9, 7))
+      waitsForPromise ->
+        pythonTools.jediToolsRequest('gotoDef').then ->
+          expect(editor.getCursorBufferPosition()).toEqual new Point(9, 7)
+
   describe "when running the show usages command", ->
     editor = null
     beforeEach ->

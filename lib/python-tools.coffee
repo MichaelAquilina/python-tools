@@ -266,6 +266,7 @@ PythonTools =
       line: bufferPosition.row
       col: bufferPosition.column
 
+    # This is needed for the promise to work correctly
     provider = @provider
     handleJediToolsResponse = @handleJediToolsResponse
 
