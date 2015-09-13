@@ -7,14 +7,14 @@ Some handy tools to make developing Python in Atom even more enjoyable.
 
 Goes along really nicely with the [python-autocomplete](https://atom.io/packages/autocomplete-python) package to provide a full Python IDE experience in Atom.
 
-![Demo](http://i738.photobucket.com/albums/xx27/Michael_Aquilina/output_zps4qx1snfe.gif)
-
 ## Details
 
 This package uses [Jedi](https://pypi.python.org/pypi/jedi) as well as custom methods to provide numerous pieces of functionality:
 
 ### Show Usages
 Default shortcut: `ctrl+alt+u`
+
+![demo](http://i.imgur.com/coOlBn7.gif?1)
 
 Select the usages of a specific symbol in your file.
 
@@ -25,12 +25,16 @@ Currently only supports detection of symbols within the same file. This will be 
 ### Goto Definition
 Default shortcut: `ctrl+alt+g`
 
+![demo](http://i.imgur.com/iXHY7HE.gif?1)
+
 Go to to the original definition of the symbol under the cursor. This will open the corresponding file if it is not already open.
 
 Files which form part of the standard library / are installed as third party modules are still opened, which is a really nice way of analysing and understanding behavior of code.
 
 ### Select String Contents
 Default shortcut: `ctrl+alt+e`
+
+![demo](http://i.imgur.com/tUeduTK.gif?1)
 
 Select the entire contents of the string currently being selected.
 
