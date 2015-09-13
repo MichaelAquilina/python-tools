@@ -37,7 +37,6 @@ describe "PythonTools", ->
           sql_text2 = '''SELECT *
           FROM bar
           '''
-
         """)
 
     it "selects single-line single qoutes correctly", ->
