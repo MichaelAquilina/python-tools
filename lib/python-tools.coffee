@@ -24,6 +24,9 @@ PythonTools =
 
   subscriptions: null
 
+  _issueReportLink: ['If issue persists please report it at https://github.com',
+                     '/michaelaquilina/python-tools/issues/new'].join('')
+
   activate: (state) ->
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
