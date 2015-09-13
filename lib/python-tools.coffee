@@ -1,11 +1,13 @@
 {Range, Point, CompositeDisposable} = require 'atom'
 path = require 'path'
 
+
 regexPatternIn = (pattern, list) ->
   for item in list
     if pattern.test item
       return true
   return false
+
 
 PythonTools =
   config:
@@ -42,8 +44,6 @@ PythonTools =
       atom.commands.add 'atom-text-editor[data-grammar="source python"]',
       'python-tools:select-all-string': => @selectAllString()
     )
-
-    @requests = {}
 
     env = process.env
     pythonPath = atom.config.get('python-tools.pythonPath')
@@ -100,12 +100,8 @@ PythonTools =
           }
         )
 
-    @readline = require('readline').createInterface(input: @provider.stdout)
-    @readline.on 'line', (response) => @handleJsonResponse(response)
-
   deactivate: ->
     @subscriptions.dispose()
-    @readline.close()
     @provider.kill()
 
   selectAllString: ->
@@ -215,10 +211,6 @@ PythonTools =
           new Point(end, end_index),
         ))
 
-  handleJsonResponse: (response) ->
-    console.log "tools.py => #{response}"
-    @handleJediToolsResponse(JSON.parse(response))
-
   handleJediToolsResponse: (response) ->
     if response['definitions'].length > 0
       editor = atom.workspace.getActiveTextEditor()
@@ -265,18 +257,27 @@ PythonTools =
     editor = atom.workspace.getActiveTextEditor()
     grammar = editor.getGrammar()
 
-    console.log "Running '#{type}' for #{grammar.name}"
+    bufferPosition = editor.getCursorBufferPosition()
 
-    if grammar.name == 'Python'
-      bufferPosition = editor.getCursorBufferPosition()
+    payload =
+      type: type
+      path: editor.getPath()
+      source: editor.getText()
+      line: bufferPosition.row
+      col: bufferPosition.column
 
-      payload =
-        type: type
-        path: editor.getPath()
-        source: editor.getText()
-        line: bufferPosition.row
-        col: bufferPosition.column
+    provider = @provider
+    handleJediToolsResponse = @handleJediToolsResponse
 
-      @provider.stdin.write(JSON.stringify(payload) + '\n')
+    return new Promise( (resolve, reject) ->
+      readline = require('readline').createInterface(input: provider.stdout)
+      readline.on 'line', (response) ->
+        console.log "tools.py => #{response}"
+        handleJediToolsResponse(JSON.parse(response))
+        resolve()
+
+      provider.stdin.write(JSON.stringify(payload) + '\n')
+    )
+
 
 module.exports = PythonTools

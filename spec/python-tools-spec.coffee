@@ -11,6 +11,30 @@ describe "PythonTools", ->
     runs ->
       pythonTools = atom.packages.getActivePackage('python-tools').mainModule
 
+  describe "when running the show usages command", ->
+    editor = null
+    beforeEach ->
+      waitsForPromise ->
+        atom.workspace.open('foo.py')
+
+      runs ->
+        editor = atom.workspace.getActiveTextEditor()
+        editor.setText("""
+        def my_function(a, b):
+            return a + b
+
+        print my_function(10, 20)
+        """)
+
+    it "selects the correct symbols", ->
+      editor.setCursorBufferPosition(new Point(3, 8))
+      waitsForPromise ->
+        pythonTools.jediToolsRequest('usages').then ->
+          expect(editor.getSelectedBufferRanges()).toEqual([
+            new Range(new Point(0, 4), new Point(0, 15)),
+            new Range(new Point(3, 6), new Point(3, 17)),
+          ])
+
   describe "when running the select string command", ->
     editor = null
     beforeEach ->
@@ -114,13 +138,6 @@ describe "PythonTools", ->
         )
 
   describe "when a response is returned from tools.py", ->
-    it "correctly deserializes JSON", ->
-      pythonTools.handleJsonResponse('''{
-        "type": "usages",
-        "definitions": {
-          "line": 0, "column": 0, "path": "foo.py", "name": "bar"
-        }
-      }''')
 
     it "informs the user with an info notification when no items were found", ->
       pythonTools.handleJediToolsResponse(
