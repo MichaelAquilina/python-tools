@@ -56,7 +56,10 @@ describe "PythonTools", ->
       waitsForPromise ->
         pythonTools.jediToolsRequest('gotoDef').then ->
           path = atom.workspace.open.mostRecentCall.args[0]
-          expect(path).toMatch(/.*\/json\/__init__.py/)
+          if /^win/.test process.platform
+            expect(path).toMatch(/.*\\json\\__init__.py/)
+          else
+            expect(path).toMatch(/.*\/json\/__init__.py/)
 
   describe "when running the show usages command", ->
     editor = null
