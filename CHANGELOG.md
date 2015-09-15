@@ -1,3 +1,10 @@
+0.6.4
+-----
+* Fix a nasty bug where the number of tabs open from goto definitions would grow for each command sent
+* Python tools is now only run in editors specifically running the python grammar
+* Fix an issue where report link would not show on package error
+* Improvements to test coverage
+
 0.6.3
 -----
 
