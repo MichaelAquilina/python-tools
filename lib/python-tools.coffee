@@ -26,8 +26,7 @@ PythonTools =
 
   subscriptions: null
 
-  _issueReportLink: ['If issue persists please report it at https://github.com',
-                     '/michaelaquilina/python-tools/issues/new'].join('')
+  _issueReportLink: "https://github.com/michaelaquilina/python-tools/issues/new"
 
   activate: (state) ->
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
@@ -84,25 +83,38 @@ PythonTools =
 
     @provider.on 'error', (err) =>
       if err.code == 'ENOENT'
-        atom.notifications.addWarning(
-          "python-tools unable to find python executable: please set " +
-          "the path to python directory manually in the package settings and " +
-          "restart your editor. #{@_issueReportLink}", {
+        atom.notifications.addWarning("""
+          python-tools was unable to find your machine's python executable.
+
+          Please try set the path in package settings and then restart atom.
+
+          If the issue persists please post an issue on
+          #{@_issueReportLink}
+          """, {
             detail: err,
             dismissable: true
           }
         )
       else
-        atom.notifications.addError(
-          "python-tools error. #{@_issueReportLink}", {
-            detail: err,
-            dismissable: true
-          }
+        atom.notifications.addError("""
+          python-tools unexpected error.
+
+          Please consider posting an issue on
+          #{@_issueReportLink}
+          """, {
+              detail: err,
+              dismissable: true
+            }
         )
     @provider.on 'exit', (code, signal) =>
       if signal != 'SIGTERM'
         atom.notifications.addError(
-          "python-tools provider exit. #{@_issueReportLink}", {
+          """
+          python-tools experienced an unexpected exit.
+
+          Please consider posting an issue on
+          #{@_issueReportLink}
+          """, {
             detail: "exit with code #{code}, signal #{signal}",
             dismissable: true
           }
