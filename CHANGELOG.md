@@ -1,3 +1,7 @@
+0.6.5
+-----
+* More informative error messages
+
 0.6.4
 -----
 * Add the following to the default list of windows paths to look up for python
