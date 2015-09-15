@@ -211,14 +211,14 @@ PythonTools =
 
         for i in [start + 1 ... end] by 1
           line = editor.lineTextForBufferRow(i)
-          trimmed = line.replace(/^\s+/,"")  # left trim
+          trimmed = line.replace(/^\s+/, "")  # left trim
           selections.push new Range(
             new Point(i, line.length - trimmed.length),
             new Point(i, line.length),
           )
 
         line = editor.lineTextForBufferRow(end)
-        trimmed = line.replace(/^\s+/,"")  # left trim
+        trimmed = line.replace(/^\s+/, "")  # left trim
 
         selections.push new Range(
           new Point(end, line.length - trimmed.length),
