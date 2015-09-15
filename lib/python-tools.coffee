@@ -74,6 +74,11 @@ PythonTools =
       'python', [__dirname + '/tools.py'], env: env
     )
 
+    @readline = require('readline').createInterface(
+      input: @provider.stdout
+      output: @provider.stdin
+    )
+
     @provider.on 'error', (err) =>
       if err.code == 'ENOENT'
         atom.notifications.addWarning(
@@ -103,6 +108,7 @@ PythonTools =
   deactivate: ->
     @subscriptions.dispose()
     @provider.kill()
+    @readline.close()
 
   selectAllString: ->
     editor = atom.workspace.getActiveTextEditor()
@@ -267,18 +273,14 @@ PythonTools =
       col: bufferPosition.column
 
     # This is needed for the promise to work correctly
-    provider = @provider
     handleJediToolsResponse = @handleJediToolsResponse
+    readline = @readline
 
-    return new Promise( (resolve, reject) ->
-      readline = require('readline').createInterface(input: provider.stdout)
-      readline.on 'line', (response) ->
+    return new Promise (resolve, reject) ->
+      response = readline.question "#{JSON.stringify(payload)}\n", (response) ->
         console.log "tools.py => #{response}"
         handleJediToolsResponse(JSON.parse(response))
         resolve()
-
-      provider.stdin.write(JSON.stringify(payload) + '\n')
-    )
 
 
 module.exports = PythonTools
