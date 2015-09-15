@@ -50,8 +50,11 @@ PythonTools =
 
     if /^win/.test process.platform
       paths = ['C:\\Python2.7',
+               'C:\\Python27',
                'C:\\Python3.4',
+               'C:\\Python34',
                'C:\\Python3.5',
+               'C:\\Python35',
                'C:\\Program Files (x86)\\Python 2.7',
                'C:\\Program Files (x86)\\Python 3.4',
                'C:\\Program Files (x86)\\Python 3.5',
