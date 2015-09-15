@@ -1,5 +1,9 @@
 0.6.4
 -----
+* Add the following to the default list of windows paths to look up for python
+   * C:\\Python27
+   * C:\\Python34
+   * C:\\Python35
 * Fix a nasty bug where the number of tabs open from goto definitions would grow for each command sent
 * Python tools is now only run in editors specifically running the python grammar
 * Fix an issue where report link would not show on package error
