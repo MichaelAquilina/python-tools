@@ -4,7 +4,7 @@
   "version": "0.6.5",
   "description": "Goto definition, show usages, refactor/rename and more for python files",
   "keywords": [
-    "python"
+    "python", "refactor", "jedi", "tools"
   ],
   "activationCommands": {},
   "repository": "https://github.com/MichaelAquilina/python-tools",
