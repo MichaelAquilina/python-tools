@@ -49,6 +49,10 @@ I have builds being tested on appveyor which should prevent any obvious errors f
 
 If you have any issue running this package on windows then please open an [Issue](https://github.com/michaelaquilina/python-tools/issues).
 
+Common Problem: "python-tools was unable to find your machine's python executable"
+* Make sure python is installed on your machine (jedi is used internally which runs off python)
+* Make sure your python executable is added to your PATH environment variable
+
 ## Work In Progress
 
 This Atom package is very much a Work In Progress and is far from currently being perfect! There are a lot of things I will be looking to improve.
