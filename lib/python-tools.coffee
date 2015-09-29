@@ -125,6 +125,14 @@ PythonTools =
     @provider.kill()
     @readline.close()
 
+  swapStringDelimiters: ->
+    editor = atom.workspace.getActiveTextEditor()
+    bufferPosition = editor.getCursorBufferPosition()
+    line = editor.lineTextForBufferRow(bufferPosition.row)
+
+    scopeDescriptor = editor.scopeDescriptorForBufferPosition(bufferPosition)
+    scopes = scopeDescriptor.getScopesArray()
+
   selectAllString: ->
     editor = atom.workspace.getActiveTextEditor()
     bufferPosition = editor.getCursorBufferPosition()

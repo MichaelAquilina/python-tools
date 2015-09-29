@@ -11,6 +11,46 @@ describe "PythonTools", ->
     runs ->
       pythonTools = atom.packages.getActivePackage('python-tools').mainModule
 
+  describe "when running swap string delimiters", ->
+    editor = null
+    beforeEach ->
+      waitsForPromise ->
+        atom.workspace.open('anotherexample.py')
+
+      runs ->
+        editor = atom.workspace.getActiveTextEditor()
+
+    it "converts selected single line string delimters back and forth", ->
+      editor.setText("""
+      print 'This is a triumph!'
+      """)
+      editor.setCursorBufferPosition(new Point(0, 10))
+      pythonTools.swapStringDelimiters()
+      expect(editor.getText()).toEqual("""
+      print "This is a triumph!"
+      """)
+      pythonTools.swapStringDelimiters()
+      expect(editor.getText()).toEqual("""
+      print 'This is a triumph!'
+      """)
+
+    it "converts conflicting characters in the string", ->
+      editor.setText("""
+      a = "I'm making a note here, huge success"
+      """)
+      editor.setCursorBufferPosition(new Point(0, 10))
+      pythonTools.swapStringDelimiters()
+      expect(editor.getText()).toEqual("""
+      a = 'I\\'m making a note here, huge success'
+      """)
+      editor.setText("""
+      b = 'the date is "1989-10-23"'
+      """)
+      pythonTools.swapStringDelimiters()
+      expect(editor.getText()).toEqual("""
+      b = "the date is \\"1989-10-23\\""
+      """)
+
   describe "when running jedi commands", ->
     editor = null
     beforeEach ->
