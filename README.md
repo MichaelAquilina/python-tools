@@ -1,7 +1,7 @@
 # Python Tools
 
 [![Build Status](https://travis-ci.org/MichaelAquilina/python-tools.svg?branch=master)](https://travis-ci.org/MichaelAquilina/python-tools)
-[![Build Status Windows](https://ci.appveyor.com/api/projects/status/jnu90b2bgqar87es?svg=true)](https://ci.appveyor.com/project/MichaelAquilina/python-tools)
+[![Build Status Windows](https://ci.appveyor.com/api/projects/status/jnu90b2bgqar87es/branch/master?svg=true)](https://ci.appveyor.com/project/MichaelAquilina/python-tools)
 
 Some handy tools to make developing Python code in Atom even more enjoyable.
 
