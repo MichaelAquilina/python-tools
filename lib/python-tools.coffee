@@ -261,8 +261,6 @@ PythonTools =
             searchAllPanes: true
 
           atom.workspace.open(first_def['path'], options).then (editor) ->
-            # scroll to top first to get it centered correctly
-            editor.scrollToTop()
             editor.scrollToCursorPosition()
       else
         atom.notifications.addError(
