@@ -1,3 +1,7 @@
+0.6.6
+-----
+* Remove deprecated scrollToTop
+
 0.6.5
 -----
 * More informative error messages
