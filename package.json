@@ -1,10 +1,13 @@
 {
   "name": "python-tools",
   "main": "./lib/python-tools",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "Goto definition, show usages, refactor/rename and more for python files",
   "keywords": [
-    "python", "refactor", "jedi", "tools"
+    "python",
+    "refactor",
+    "jedi",
+    "tools"
   ],
   "activationCommands": {},
   "repository": "https://github.com/MichaelAquilina/python-tools",
