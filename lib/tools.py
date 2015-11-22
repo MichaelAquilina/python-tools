@@ -59,6 +59,8 @@ class JediTools(object):
             self._write_response(self._serialize('usages', script.usages()))
         elif request['type'] == 'gotoDef':
             self._write_response(self._serialize('gotoDef', script.goto_definitions()))
+        else:
+            raise ValueError('Unknown request type: {}'.format(request['type']))
 
     def _write_response(self, response):
         sys.stdout.write(response + '\n')

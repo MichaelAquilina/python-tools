@@ -82,6 +82,15 @@ describe "PythonTools", ->
           else
             expect(path).toMatch(/.*\/json\/__init__.py/)
 
+  describe "when tools.py gets an invalid request", ->
+    editor = null
+    beforeEach ->
+      waitsForPromise ->
+        atom.workspace.open('error.py')
+
+      runs ->
+        editor = atom.workspace.getActiveTextEditor()
+
   describe "when running the show usages command", ->
     editor = null
     beforeEach ->
@@ -225,6 +234,13 @@ describe "PythonTools", ->
       )
       [notification] = atom.notifications.getNotifications()
       expect(notification.type).toBe 'info'
+
+    it "informs the user with an error notification on error", ->
+      pythonTools.handleJediToolsResponse(
+        "error": "this is an error"
+      )
+      [notification] = atom.notifications.getNotifications()
+      expect(notification.type).toBe 'error'
 
     it "informs the user with an error notification on invalid type", ->
       pythonTools.handleJediToolsResponse(
