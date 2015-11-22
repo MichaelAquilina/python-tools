@@ -234,7 +234,6 @@ PythonTools =
 
   handleJediToolsResponse: (response) ->
     if 'error' of response
-      console.log('An error has occurred!')
       atom.notifications.addError(response['error'])
       return
 
@@ -296,7 +295,6 @@ PythonTools =
 
     return new Promise (resolve, reject) ->
       response = readline.question "#{JSON.stringify(payload)}\n", (response) ->
-        console.log "tools.py => #{response}"
         handleJediToolsResponse(JSON.parse(response))
         resolve()
 
