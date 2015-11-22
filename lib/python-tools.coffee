@@ -234,6 +234,7 @@ PythonTools =
 
   handleJediToolsResponse: (response) ->
     if 'error' of response
+      console.error response['error']
       atom.notifications.addError(response['error'])
       return
 

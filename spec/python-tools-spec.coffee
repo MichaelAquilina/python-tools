@@ -237,7 +237,7 @@ describe "PythonTools", ->
 
     it "informs the user with an error notification on error", ->
       pythonTools.handleJediToolsResponse(
-        "error": "this is an error"
+        "error": "this is a test error"
       )
       [notification] = atom.notifications.getNotifications()
       expect(notification.type).toBe 'error'
