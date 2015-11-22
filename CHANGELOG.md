@@ -1,3 +1,7 @@
+0.6.7
+-----
+* Better error handling and logging when something fails in the python handler
+
 0.6.6
 -----
 * Remove deprecated scrollToTop
