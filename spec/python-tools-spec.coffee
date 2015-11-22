@@ -115,7 +115,7 @@ describe "PythonTools", ->
             new Range(new Point(3, 6), new Point(3, 17)),
           ])
 
-    it "does alter current selection on no results", ->
+    it "doesn't alter current selection on no results", ->
       editor.setCursorBufferPosition(new Point(3, 2))
       waitsForPromise ->
         pythonTools.jediToolsRequest('usages').then ->
