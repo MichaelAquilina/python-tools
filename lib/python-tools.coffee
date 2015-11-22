@@ -233,6 +233,11 @@ PythonTools =
         ))
 
   handleJediToolsResponse: (response) ->
+    if 'error' of response
+      console.log('An error has occurred!')
+      atom.notifications.addError(response['error'])
+      return
+
     if response['definitions'].length > 0
       editor = atom.workspace.getActiveTextEditor()
 

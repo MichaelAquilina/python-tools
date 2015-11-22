@@ -74,9 +74,13 @@ class JediTools(object):
                     break
 
                 self._process_request(data)
-            except Exception:
+            except Exception as e:
                 with open('error.log', 'wa') as fp:
                     traceback.print_exc(file=fp)
+                    fp.write('Input:\n{}\n'.format(data))
+                error_response = json.dumps({'error': str(e)})
+                sys.stdout.write(error_response + '\n')
+                sys.stdout.flush()
 
 if __name__ == '__main__':
     JediTools().watch()
