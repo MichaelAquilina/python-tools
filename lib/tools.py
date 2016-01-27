@@ -45,6 +45,11 @@ class JediTools(object):
         request = json.loads(request)
 
         path = self._get_top_level_module(request.get('path', ''))
+        project_paths = (request.get('project_paths', []))
+        for project_path in project_paths:
+            project_path_top_module = self._get_top_level_module(project_path)
+            if project_path_top_module not in sys.path:
+                sys.path.insert(0, project_path_top_module)
         if path not in sys.path:
             sys.path.insert(0, path)
 
