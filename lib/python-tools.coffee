@@ -289,6 +289,7 @@ PythonTools =
       source: editor.getText()
       line: bufferPosition.row
       col: bufferPosition.column
+      project_paths: atom.project.getPaths()
 
     # This is needed for the promise to work correctly
     handleJediToolsResponse = @handleJediToolsResponse
