@@ -1,12 +1,13 @@
-import os
 import io
-import sys
 import json
+import os
+import sys
 import traceback
 
 # Load jedi library included with this package
 sys.path.append(os.path.dirname(__file__))
-import jedi
+
+import jedi  # noqa
 
 
 class JediTools(object):
