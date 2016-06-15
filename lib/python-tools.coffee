@@ -46,6 +46,7 @@ PythonTools =
 
     env = process.env
     pythonPath = atom.config.get('python-tools.pythonPath')
+    path_env = null
 
     if /^win/.test process.platform
       paths = ['C:\\Python2.7',
@@ -63,9 +64,11 @@ PythonTools =
                'C:\\Program Files\\Python 2.7',
                'C:\\Program Files\\Python 3.4',
                'C:\\Program Files\\Python 3.5']
-    else:
+      path_env = (env.Path or '').split path.delimiter
+    else
       paths = ['/usr/local/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin']
-    path_env = (env.PATH or '').split path.delimiter
+      path_env = (env.PATH or '').split path.delimiter
+
     path_env.unshift pythonPath if pythonPath and pythonPath not in path_env
     for p in paths
       if p not in path_env
