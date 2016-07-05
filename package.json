@@ -1,7 +1,7 @@
 {
   "name": "python-tools",
   "main": "./lib/python-tools",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "description": "Goto definition, show usages, refactor/rename and more for python files",
   "keywords": [
     "python",
