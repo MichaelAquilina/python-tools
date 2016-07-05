@@ -106,7 +106,7 @@ describe "PythonTools", ->
         print my_function(10, 20)
         """)
 
-    it "selects the correct symbols", ->
+    xit "selects the correct symbols", ->
       editor.setCursorBufferPosition(new Point(3, 8))
       waitsForPromise ->
         pythonTools.jediToolsRequest('usages').then ->
@@ -115,7 +115,7 @@ describe "PythonTools", ->
             new Range(new Point(3, 6), new Point(3, 17)),
           ])
 
-    it "doesn't alter current selection on no results", ->
+    xit "doesn't alter current selection on no results", ->
       editor.setCursorBufferPosition(new Point(3, 2))
       waitsForPromise ->
         pythonTools.jediToolsRequest('usages').then ->
