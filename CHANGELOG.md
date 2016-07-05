@@ -1,3 +1,8 @@
+0.6.8
+-----
+* Fix Issue #36 - python-tools unable to find python executable on Windows Machine
+* Mark known failing tests as skipped
+
 0.6.7
 -----
 * Better error handling and logging when something fails in the python handler
