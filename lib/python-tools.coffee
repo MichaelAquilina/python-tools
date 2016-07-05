@@ -64,11 +64,12 @@ PythonTools =
                'C:\\Program Files\\Python 2.7',
                'C:\\Program Files\\Python 3.4',
                'C:\\Program Files\\Python 3.5']
-      path_env = (env.Path or '').split path.delimiter
+      path_env = (env.Path or '')
     else
       paths = ['/usr/local/bin', '/usr/bin', '/bin', '/usr/sbin', '/sbin']
-      path_env = (env.PATH or '').split path.delimiter
+      path_env = (env.PATH or '')
 
+    path_env = path_env.split(path.delimiter)
     path_env.unshift pythonPath if pythonPath and pythonPath not in path_env
     for p in paths
       if p not in path_env
