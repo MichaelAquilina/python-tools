@@ -1,5 +1,5 @@
-PythonTools = require '../lib/python-tools'
-{Point, Range} = require 'atom'
+PythonTools = require('../lib/python-tools');
+{Point, Range} = require('atom');
 
 describe "PythonTools", ->
   pythonTools = null
@@ -56,31 +56,35 @@ describe "PythonTools", ->
     it "moves to the correct class location", ->
       editor.setCursorBufferPosition(new Point(6, 9))
       waitsForPromise ->
-        pythonTools.jediToolsRequest('gotoDef').then ->
-          expect(editor.getCursorBufferPosition()).toEqual new Point(3, 6)
+        pythonTools.jediToolsRequest('gotoDef').then( () ->
+          expect(editor.getCursorBufferPosition()).toEqual(new Point(3, 6))
+        )
 
     it "moves to the correct method location", ->
       editor.setCursorBufferPosition(new Point(7, 7))
       waitsForPromise ->
-        pythonTools.jediToolsRequest('gotoDef').then ->
-          expect(editor.getCursorBufferPosition()).toEqual new Point(4, 8)
+        pythonTools.jediToolsRequest('gotoDef').then( () ->
+          expect(editor.getCursorBufferPosition()).toEqual(new Point(4, 8))
+        )
 
     it "does nothing if symbol does not exist", ->
       editor.setCursorBufferPosition(new Point(9, 7))
       waitsForPromise ->
-        pythonTools.jediToolsRequest('gotoDef').then ->
-          expect(editor.getCursorBufferPosition()).toEqual new Point(9, 7)
+        pythonTools.jediToolsRequest('gotoDef').then( () ->
+          expect(editor.getCursorBufferPosition()).toEqual(new Point(9, 7))
+        )
 
     it "opens appropriate file if required", ->
       editor.setCursorBufferPosition(new Point(0, 9))
       spyOn(atom.workspace, 'open').andCallThrough()
       waitsForPromise ->
-        pythonTools.jediToolsRequest('gotoDef').then ->
+        pythonTools.jediToolsRequest('gotoDef').then( () ->
           path = atom.workspace.open.mostRecentCall.args[0]
           if /^win/.test process.platform
             expect(path).toMatch(/.*\\json\\__init__.py/)
           else
             expect(path).toMatch(/.*\/json\/__init__.py/)
+        )
 
   describe "when tools.py gets an invalid request", ->
     editor = null
@@ -109,19 +113,21 @@ describe "PythonTools", ->
     xit "selects the correct symbols", ->
       editor.setCursorBufferPosition(new Point(3, 8))
       waitsForPromise ->
-        pythonTools.jediToolsRequest('usages').then ->
+        pythonTools.jediToolsRequest('usages').then( ()->
           expect(editor.getSelectedBufferRanges()).toEqual([
             new Range(new Point(0, 4), new Point(0, 15)),
             new Range(new Point(3, 6), new Point(3, 17)),
           ])
+        )
 
     xit "doesn't alter current selection on no results", ->
       editor.setCursorBufferPosition(new Point(3, 2))
       waitsForPromise ->
-        pythonTools.jediToolsRequest('usages').then ->
+        pythonTools.jediToolsRequest('usages').then( () ->
           expect(editor.getSelectedBufferRanges()).toEqual([
               new Range(new Point(3, 2), new Point(3, 2))
           ])
+        )
 
   describe "when running the select string command", ->
     editor = null
@@ -233,14 +239,14 @@ describe "PythonTools", ->
         definitions: []
       )
       [notification] = atom.notifications.getNotifications()
-      expect(notification.type).toBe 'info'
+      expect(notification.type).toBe('info')
 
     it "informs the user with an error notification on error", ->
       pythonTools.handleJediToolsResponse(
         "error": "this is a test error"
       )
       [notification] = atom.notifications.getNotifications()
-      expect(notification.type).toBe 'error'
+      expect(notification.type).toBe('error')
 
     it "informs the user with an error notification on invalid type", ->
       pythonTools.handleJediToolsResponse(
@@ -251,4 +257,4 @@ describe "PythonTools", ->
         }   ]
       )
       [notification] = atom.notifications.getNotifications()
-      expect(notification.type).toBe 'error'
+      expect(notification.type).toBe('error')
