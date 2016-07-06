@@ -95,6 +95,14 @@ describe "PythonTools", ->
       runs ->
         editor = atom.workspace.getActiveTextEditor()
 
+
+    it "handles the invalid request gracefully", ->
+      waitsForPromise ->
+        pythonTools.jediToolsRequest("lolcat").then( ()->
+          [notification] = atom.notifications.getNotifications()
+          expect(notification.type).toBe('error')
+        )
+
   describe "when running the show usages command", ->
     editor = null
     beforeEach ->
@@ -243,7 +251,7 @@ describe "PythonTools", ->
 
     it "informs the user with an error notification on error", ->
       pythonTools.handleJediToolsResponse(
-        "error": "this is a test error"
+        {"error": "this is a test error"}
       )
       [notification] = atom.notifications.getNotifications()
       expect(notification.type).toBe('error')
