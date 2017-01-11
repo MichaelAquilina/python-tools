@@ -7,7 +7,7 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
-'atom-workspace':
+'atom-text-editor[data-grammar~="python"]:not([mini])':
   'ctrl-alt-u': 'python-tools:show-usages'
   'ctrl-alt-g': 'python-tools:goto-definition'
   'ctrl-alt-e': 'python-tools:select-all-string'
