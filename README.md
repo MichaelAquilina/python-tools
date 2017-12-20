@@ -7,6 +7,8 @@ Some handy tools to make developing Python code in Atom even more enjoyable.
 
 Goes along really nicely with the [autocomplete-python](https://atom.io/packages/autocomplete-python) package to provide a full Python IDE experience in Atom.
 
+> Note: I am no longer maintaining this package due to no longer using Atom anymore. If someone wishes to take over maintainership feel free to send me an email
+
 ## Details
 
 This package uses [Jedi](https://pypi.python.org/pypi/jedi) in addition to other custom code to provide numerous pieces of functionality to make you more productive:
